@@ -1,3 +1,4 @@
+import { env } from './config/env'
 import { buildServer } from './utils/server'
 
 const gracefulShutdown = async ({
@@ -12,7 +13,8 @@ const main = async () => {
   const app = await buildServer()
 
   app.listen({
-    port: 3000,
+    port: env.PORT,
+    host: env.HOST,
   })
 
   const signals = ['SIGINT', 'SIGTERM']
