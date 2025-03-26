@@ -1,6 +1,7 @@
 import { env } from './config/env'
-import { logger } from './utils/logger'
+import { migrate } from 'drizzle-orm/node-postgres/migrator'
 import { buildServer } from './utils/server'
+import { db } from './db'
 
 const gracefulShutdown = async ({
   app,
@@ -16,6 +17,10 @@ const main = async () => {
   app.listen({
     port: env.PORT,
     host: env.HOST,
+  })
+
+  await migrate(db, {
+    migrationsFolder: './migrations',
   })
 
   const signals = ['SIGINT', 'SIGTERM']
