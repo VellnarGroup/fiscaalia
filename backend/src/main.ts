@@ -1,4 +1,5 @@
 import { env } from './config/env'
+import { logger } from './utils/logger'
 import { buildServer } from './utils/server'
 
 const gracefulShutdown = async ({
