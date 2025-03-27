@@ -38,7 +38,8 @@ export const buildServer = async () => {
 
     try {
       const token = authHeader.replace('Bearer ', '')
-      const decoded = jwt.verify(token, 'secret') as User
+
+      const decoded = jwt.verify(token, 'fiscaalia-777-secret') as User
 
       console.log('user', decoded)
 
