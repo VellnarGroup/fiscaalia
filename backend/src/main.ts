@@ -2,6 +2,7 @@ import { env } from './config/env'
 import { migrate } from 'drizzle-orm/node-postgres/migrator'
 import { buildServer } from './utils/server'
 import { db } from './db'
+import { logger } from './utils/logger'
 
 const gracefulShutdown = async ({
   app,
@@ -24,6 +25,8 @@ const main = async () => {
   })
 
   const signals = ['SIGINT', 'SIGTERM']
+
+  logger.debug(env, 'using env')
 
   for (const signal of signals) {
     process.on(signal, () => {
