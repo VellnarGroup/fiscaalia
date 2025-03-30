@@ -4,6 +4,8 @@ import { databaseRoutes } from '../modules/databases/databases.routes'
 import { usersRoutes } from '../modules/users/users.routes'
 import { roleRoutes } from '../modules/roles/roles.routes'
 import jwt from 'jsonwebtoken'
+import fastifyStatic from '@fastify/static'
+import path from 'path'
 
 type User = {
   id: string
@@ -56,10 +58,26 @@ export const buildServer = async () => {
     },
   })
 
+  app.register(fastifyStatic, {
+    root: path.join(__dirname, '../../../../dist'),
+    prefix: '/',
+    decorateReply: true, // Needed for the sendFile method
+    wildcard: false, // Important for SPA routing
+  })
+
   // Fastify Routes
   app.register(databaseRoutes, { prefix: '/api/databases' })
   app.register(usersRoutes, { prefix: '/api/users' })
   app.register(roleRoutes, { prefix: '/api/roles' })
+
+  app.setNotFoundHandler((request, reply) => {
+    // If the request is not for an API route, serve the index.html
+    if (!request.url.startsWith('/api/')) {
+      return reply.sendFile('index.html')
+    }
+    // Otherwise, return a 404 response
+    reply.code(404).send({ error: 'Not found' })
+  })
 
   return app
 }

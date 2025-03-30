@@ -39,4 +39,29 @@ export const usersRoutes = async (app: FastifyInstance) => {
     },
     assignRoleToUserHandler
   )
+
+  app.get('/test', async (request, reply) => {
+    const testUsers = [
+      { id: 1, name: 'Mario Rossi', email: 'mario@example.com', role: 'user' },
+      {
+        id: 2,
+        name: 'Giulia Bianchi',
+        email: 'giulia@example.com',
+        role: 'admin',
+      },
+      { id: 3, name: 'Paolo Verdi', email: 'paolo@example.com', role: 'user' },
+      { id: 4, name: 'Anna Neri', email: 'anna@example.com', role: 'user' },
+      {
+        id: 5,
+        name: 'Luca Gialli',
+        email: 'luca@example.com',
+        role: 'manager',
+      },
+    ]
+
+    return {
+      example: 'Test API funziona!',
+      users: testUsers,
+    }
+  })
 }
